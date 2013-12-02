@@ -1,0 +1,7 @@
+Load folders with images into data/dirs folder.
+
+For each user create user.passwd file with his password.
+
+In data/doclog folder you will see all saved annotations. Current version of user's annotation can be seen in folder with photos.
+
+Start server with command "rb server.rb" in app folder.

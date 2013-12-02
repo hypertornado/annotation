@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+	<title>Annotation</title>
+	<link rel="stylesheet" href="/css/reset.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<script src="/js/app-compiled.js"></script>
+</head>
+<body>
+
+<div style="max-width: 800px; margin: 0px auto;">
+
+<% if session[:user] %>
+	<div style="float: right;">
+	<%= session[:user] %> | <a href="/login">logout</a>
+	</div>
+<% end %>
+
+<h3><a href="/">Annotation</a></h3>
+<% if (defined? (err) and err != nil) %>
+	<div class="alert alert-danger">
+		<%= err %>
+	</div>
+<% end %>
+
+<%= yield %>
+
+</div>
+
+</body>
+</html>

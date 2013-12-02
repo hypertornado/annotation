@@ -1,0 +1,8 @@
+
+<h4>Directory <%= dir %> <small><%= files.length %> files</small></h4>
+<table class="table table-bordered">
+<tr><th>Name</th><th>Saved at</th></tr>
+<% files.each do |file| %>
+	<tr><td><a href="/anotate/<%= dir %>/<%= file[0] %>"><%= file[0] %></a></td><td><%= file[1] %></td></tr>
+<% end %>
+</table>

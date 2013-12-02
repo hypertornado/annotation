@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head>
+	<title><%= file %></title>
+	<link rel="stylesheet" href="/css/reset.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<script src="/js/app-compiled.js"></script>
+</head>
+<body data-dir="<%= dir %>" data-file="<%= file %>" data-username="<%= username %>" id="root">
+	<!-- HTML CONTENT -->
+	<script>
+		app.start();
+	</script>
+</body>
+</html>
