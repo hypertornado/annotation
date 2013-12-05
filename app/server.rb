@@ -65,7 +65,7 @@ post '/login' do
   path = File.dirname(__FILE__) + "/../data/users/#{username}.passwd"
   puts path
   if File.exists?(path)
-    passwd = File.readlines(path).join("").chop
+    passwd = File.readlines(path).join("").chomp
     if passwd == params[:password]
       session[:user] = params[:username]
       redirect "/"

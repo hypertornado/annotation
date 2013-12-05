@@ -519,6 +519,14 @@ app.Anotator.prototype.setHeight = function() {
 
 app.Anotator.prototype.saveHandler = function(event) {
 
+  var value = this.inputElement.getValue();
+  value = goog.string.trim(value);
+  if (value != "") {
+    alert("You have nonempty string in input box. Add it into annotation tree or delete it before saving.");
+    return;
+  }
+
+
   this.dirty = false;
 
   goog.style.setElementShown(goog.dom.getElement("save-buttons"), false);
