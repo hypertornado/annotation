@@ -8,6 +8,7 @@
  * @param notes
  * @param dontUnderstandLanguage
  * @param noText
+ * @param position
  */
 {template .anotation}
 	<div id="split-container" class="goog-splitpane">
@@ -15,19 +16,21 @@
 			<img src="{$imageUrl}" id="anotation-img" class="img-full">
 		</div>
 		<div class="goog-splitpane-second-container">
-			<h2><a href='/dir/{$dir}'>{$dir}</a>/{$file}</h2>
-			<h6>user {$username} | <span id="timer"></span> | <a href="/help" target="_blank">help</a> | <a href='/login'>log out</a></h6>
+			<h2><a href='/dir/{$dir}'>{$dir}</a>/{$file} ({$position})</h2>
+			<h6>user {$username} | <span id="timer"></span> |<a href="/help" target="_blank">help</a> | <a href='/login'>log out</a></h6>
 			<div id="tree-container" style="width:400px"></div>
 			<br>
 			<input type="text" id="main-input" class="form-control" placeholder="Add new text">
+
+
 			<a href="#" id="more-options-show">More options</a>
 			<div class="well hide" id="more-options">
-				<h5>More options</h5>
+				<div id="char-picker"></div>
 				<textarea id="notes" placeholder="Notes" class="form-control" rows="3">{if $notes}{$notes}{/if}</textarea>
 				<div class="checkbox">
 				<label>
 					<input type="checkbox" {if $dontUnderstandLanguage}checked{/if} id="dontUnderstandLanguage">
-					I don't understand to the language in the picture
+					I don't understand the language in the picture
 				</label>
 				<br>
 				<label>

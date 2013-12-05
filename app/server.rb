@@ -186,7 +186,7 @@ class Help
     next_pos = position + 1
     prev_pos = entries.length - 1 if prev_pos < 0
     next_pos = 0 if next_pos > entries.length - 1
-    return [entries[prev_pos], entries[next_pos]]
+    return [entries[prev_pos], entries[next_pos], position, entries.length]
   end
 
 end

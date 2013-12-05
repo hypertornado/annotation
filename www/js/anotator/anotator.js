@@ -13,6 +13,9 @@ goog.require('goog.net.XhrIo');
 goog.require('goog.dom.dataset');
 goog.require('goog.string');
 goog.require('goog.json');
+goog.require('goog.ui.CharPicker');
+goog.require('goog.i18n.CharPickerData');
+goog.require('goog.i18n.uChar.LocalNameFetcher');
 
 
 goog.provide('app.Anotator');
@@ -70,7 +73,8 @@ app.Anotator.prototype.drawScheme = function(data) {
     noText: this.data['noText'],
     dontUnderstandLanguage: this.data['dontUnderstandLanguage'],
     notes: this.data['notes'],
-    saveTimes: []
+    saveTimes: [],
+    position: ((this.data["prevAndNext"][2] + 1) + "/" + this.data["prevAndNext"][3])
   });
 
   goog.dom.insertChildAt(goog.dom.getDocument().body, helloElement, 0);
@@ -87,10 +91,19 @@ app.Anotator.prototype.drawScheme = function(data) {
   this.setHeight();
   this.globalShortcuts();
 
+
+  var picker = new goog.ui.CharPicker(new goog.i18n.CharPickerData(),
+        new goog.i18n.uChar.LocalNameFetcher(),
+        ["\uD869\uDED6", "a", "b", "c"], 10, 1);
+  var el = goog.dom.getElement('char-picker');
+  picker.decorate(el);
+  this.picker = picker;
+
+  goog.events.listen(picker, 'action', this.getCharFromPicker, false, this);
+
+
   var myThis = this;
-
   this.startTime = Date.now();
-
   setInterval(
     function () {
       var time = Date.now() - myThis.startTime;
@@ -139,6 +152,24 @@ app.Anotator.prototype.drawScheme = function(data) {
     }
   };
 };
+
+app.Anotator.prototype.toggleCase = function() {
+  var el = this.inputElement.getElement();
+  var val = el.value;
+  var up = val.toUpperCase();
+  if (up == val) {
+    up = val.toLowerCase();
+  }
+  el.value = up;
+}
+
+app.Anotator.prototype.getCharFromPicker = function(e) {
+  var newChar = this.picker.getSelectedChar();
+  var tmpVal = this.inputElement.getElement().value;
+  this.inputElement.getElement().value = tmpVal + newChar;
+  this.inputElement.getElement().focus();
+
+}
 
 app.Anotator.prototype.globalShortcuts = function() {
   var shortcutHandler = new goog.ui.KeyboardShortcutHandler(goog.dom.getElement("split-container"));
@@ -449,6 +480,9 @@ app.Anotator.prototype.inputComponent = function() {
   shortcutHandler.registerShortcut('CMD_ENTER', 'meta+enter');
   shortcutHandler.registerShortcut('CMD_ENTER', 'ctrl+enter');
 
+  shortcutHandler.registerShortcut('CASE', 'meta+k');
+  shortcutHandler.registerShortcut('CASE', 'ctrl+k');
+
   goog.events.listen(
         shortcutHandler,
         goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED, this.handleInput,
@@ -496,6 +530,8 @@ app.Anotator.prototype.handleInput = function(shortcut) {
     this.tree.expandAll();
     this.tree.setSelectedItem(newNodeFolder);
     this.dirty = true;
+  } else if (shortcut.identifier == "CASE") {
+    this.toggleCase();
   } else {
     this.tree.getElement().focus();
   }
