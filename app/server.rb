@@ -135,6 +135,8 @@ post "/api_save/:dir/:file" do
 
   save_text = request.body.read
 
+  save_text = URI.unescape(save_text)
+
   save_text = JSON.parse(save_text)
   save_text["savedAt"].push(Time.now.to_i)
   save_text = save_text.to_json

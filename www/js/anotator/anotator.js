@@ -12,6 +12,7 @@ goog.require('goog.ui.KeyboardShortcutHandler');
 goog.require('goog.net.XhrIo');
 goog.require('goog.dom.dataset');
 goog.require('goog.string');
+goog.require('goog.json');
 
 
 goog.provide('app.Anotator');
@@ -566,6 +567,12 @@ app.Anotator.prototype.saveHandler = function(event) {
 
   }, false, this);
   
+  var str = this.data;
 
-  xhr.send("/api_save/" + this.dir + "/" + this.file, "POST", JSON.stringify(this.data));
+  //JSON.stringify(
+
+  str = goog.json.serialize(str);
+  str = goog.string.urlEncode(str);
+
+  xhr.send("/api_save/" + this.dir + "/" + this.file, "POST", str);
 }
