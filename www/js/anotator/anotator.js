@@ -133,7 +133,7 @@ app.Anotator.prototype.drawScheme = function(data) {
     goog.dom.getElement("more-options-show"),
     goog.events.EventType.CLICK,
     function (e) {
-      goog.dom.classes.toggle(goog.dom.getElement("more-options-show"), "hide");
+      //goog.dom.classes.toggle(goog.dom.getElement("more-options-show"), "hide");
       goog.dom.classes.toggle(goog.dom.getElement("more-options"), "hide");
     }
   );
@@ -233,6 +233,9 @@ app.Anotator.prototype.makeTree = function(anotations) {
   shortcutHandler.registerShortcut('EDIT', 'meta+e');
   shortcutHandler.registerShortcut('EDIT', 'ctrl+e');
 
+  shortcutHandler.registerShortcut('CASE', 'meta+k');
+  shortcutHandler.registerShortcut('CASE', 'ctrl+k');
+
   goog.events.listen(
         shortcutHandler,
         goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED, this.handleTree,
@@ -261,6 +264,18 @@ app.Anotator.prototype.doubleClick = function() {
 
 app.Anotator.prototype.handleTree = function(shortcut) {
   switch (shortcut.identifier){
+    case "CASE":
+      var node = this.tree.getSelectedItem();
+      if (node.getChildren().length != 0) {
+        return;
+      }
+      var val = node.getText();
+      var up = val.toUpperCase();
+      if (up == val) {
+        up = val.toLowerCase();
+      }
+      node.setText(up);
+      break;
     case "EDIT":
       this.doubleClick();
       break;
